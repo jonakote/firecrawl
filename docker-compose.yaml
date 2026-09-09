@@ -57,7 +57,9 @@ x-common-env: &common-env
   SEARXNG_CATEGORIES: ${SEARXNG_CATEGORIES}
   # Set NUQ_BACKEND=fdb to run the queue on FoundationDB instead of Postgres
   NUQ_BACKEND: ${NUQ_BACKEND}
-  FDB_CLUSTER_FILE: ${NUQ_BACKEND:+/var/fdb/fdb.cluster}
+  # Coolify supports the :- interpolation form, but not the :+ form.
+  # The path is mounted for the optional FoundationDB backend and can be overridden.
+  FDB_CLUSTER_FILE: ${FDB_CLUSTER_FILE:-/var/fdb/fdb.cluster}
 
 services:
   playwright-service:

@@ -1,6 +1,6 @@
 name: firecrawl
 
-x_common_service: &common_service
+x-common-service: &common-service
   # NOTE: If you don't want to build the service locally,
   # comment out the build: statement and uncomment the image: statement
   # image: ghcr.io/firecrawl/firecrawl
@@ -21,7 +21,7 @@ x_common_service: &common_service
       max-file: "3"
       compress: "true"
 
-x_common_env: &common_env
+x-common-env: &common-env
   REDIS_URL: ${REDIS_URL:-redis://redis:6379}
   REDIS_RATE_LIMIT_URL: ${REDIS_RATE_LIMIT_URL:-${REDIS_URL:-redis://redis:6379}}
   PLAYWRIGHT_MICROSERVICE_URL: ${PLAYWRIGHT_MICROSERVICE_URL:-http://playwright-service:3000/scrape}
@@ -94,9 +94,9 @@ services:
       - /tmp/.cache:noexec,nosuid,size=1g
 
   api:
-    <<: *common_service
+    <<: *common-service
     environment:
-      <<: *common_env
+      <<: *common-env
       HOST: "0.0.0.0"
       PORT: ${INTERNAL_PORT:-3002}
       EXTRACT_WORKER_PORT: ${EXTRACT_WORKER_PORT:-3004}

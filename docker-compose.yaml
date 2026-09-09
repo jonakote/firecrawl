@@ -200,6 +200,9 @@ services:
   # one-shot: creates the database on first boot (no-op afterwards)
   foundationdb-init:
     image: foundationdb/foundationdb:7.3.63
+    # Coolify must not treat this intentional one-shot exit as an unhealthy stack.
+    # noinspection ComposeUnknownKeys
+    exclude_from_hc: true
     depends_on:
       - foundationdb
     entrypoint:

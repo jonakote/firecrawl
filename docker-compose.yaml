@@ -217,6 +217,7 @@ services:
     environment:
       FDB_NETWORKING_MODE: container
       FDB_COORDINATOR_PORT: 4500
+      NUQ_BACKEND: ${NUQ_BACKEND:-pg}
     networks:
       - backend
     volumes:
@@ -225,12 +226,8 @@ services:
     healthcheck:
       test:
         [
-          "CMD",
-          "fdbcli",
-          "-C",
-          "/var/fdb/fdb.cluster",
-          "--exec",
-          "status minimal",
+          "CMD-SHELL",
+          "if [ \"$$NUQ_BACKEND\" != \"fdb\" ]; then exit 0; fi; fdbcli -C /var/fdb/fdb.cluster --exec 'status minimal'",
         ]
       interval: 30s
       timeout: 10s
